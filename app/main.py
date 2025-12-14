@@ -62,6 +62,20 @@ songs = [
         "url": "/musik/Lebih Indah (Demo Version).mp3",
         "cover": "/cover/R-11302993-1760885529-7284.jpg",
     },
+    {
+        "id": 7,
+        "title": "Siapa Menyangka",
+        "artist": "Glenn samuel",
+        "url": "/musik/Siapa Menyangka.mp3",
+        "cover": "/cover/600x600bf-60.jpg",
+    },
+    {
+        "id": 8,
+        "title": "Melepaskanmu",
+        "artist": "Kaleb j",
+        "url": "/musik/Melepaskanmu.mp3",
+        "cover": "/cover/test.jfif",
+    },
 ]
 
 
@@ -359,7 +373,7 @@ Kasihku satu janjiku kaulah yang terakhir bagiku
 
 
 
-@app.get("/")
+@app.get("/")   
 def root():
     return {"status": "ok"}
 
