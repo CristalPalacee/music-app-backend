@@ -4,9 +4,12 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 app = FastAPI()
 
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:3000",
+  "https://music-app-frontend.vercel.app",],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
