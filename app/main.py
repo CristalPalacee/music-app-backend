@@ -1,15 +1,18 @@
 from fastapi import FastAPI
-from fastapi.responses import FileResponse
+import os
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import Request
-app = FastAPI()
+# from fastapi import Request
+app = FastAPI(title="Music API", version="1.0.0")
 
-
+BASE_URL = os.getenv("BASE_URL", "").rstrip("/")
+if not BASE_URL:
+    print("⚠️ WARNING: BASE_URL is not set")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*",],
+    allow_origins=[" http://localhost:3000",
+        "https://music-app-frontend.vercel.app",],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -372,30 +375,32 @@ Kasihku satu janjiku kaulah yang terakhir bagiku
 }
 
 
-
+def with_base_url(song: dict) -> dict:
+    return {
+        **song,
+        "url": f"{BASE_URL}{song['url']}",
+        "cover": f"{BASE_URL}{song['cover']}",
+    }
 
 @app.get("/")   
 def root():
     return {"status": "ok"}
 
+
+@app.get("/health")
+def health():
+    return {"status": "healthy"}
+
 @app.get("/api/songs")
-def get_songs(request: Request):
-    base_url = str(request.base_url).replace("http://", "https://").rstrip("/")
-    return [
-            {
-            **song,
-            "url": f"{base_url}{song['url']}",
-            "cover": f"{base_url}{song['cover']}"
-            }
-               for song in songs
-            ]
+def get_songs():
+    return [with_base_url(song) for song in songs]
 
 
 @app.get("/api/songs/{song_id}")
 def get_song(song_id: int):
     for song in songs:
         if song["id"] == song_id:
-            return song
+            return with_base_url(song)
     return {"error": "Song not found"}
 
 @app.get("/api/songs/{song_id}/lyrics")
