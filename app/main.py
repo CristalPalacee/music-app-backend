@@ -380,7 +380,7 @@ def root():
 
 @app.get("/api/songs")
 def get_songs(request: Request):
-    base_url = str(request.base_url).rstrip("/")
+    base_url = str(request.base_url).replace("http://", "https://").rstrip("/")
     return [
             {
             **song,
