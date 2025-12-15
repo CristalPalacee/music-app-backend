@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import Request
 app = FastAPI()
 
 
@@ -378,8 +379,16 @@ def root():
     return {"status": "ok"}
 
 @app.get("/api/songs")
-def get_songs():
-    return songs
+def get_songs(request: Request):
+    base_url = str(request.base_url).rstrip("/")
+    return [
+            {
+            **song,
+            "url": f"{base_url}{song['url']}",
+            "cover": f"{base_url}{song['cover']}"
+            }
+               for song in songs
+            ]
 
 
 @app.get("/api/songs/{song_id}")
