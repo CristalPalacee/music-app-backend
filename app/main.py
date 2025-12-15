@@ -11,10 +11,8 @@ if not BASE_URL:
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[" http://localhost:3000",
-        "https://music-app-frontend.vercel.app",],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_origins=["*",],
+    allow_credentials=False,
     allow_headers=["*"],
 )
 
