@@ -79,6 +79,20 @@ songs = [
         "url": "/musik/Melepaskanmu.mp3",
         "cover": "/cover/test.jfif",
     },
+    {
+        "id": 9,
+        "title": "Somebody pleasure",
+        "artist": "Aziz hedra",
+        "url": "/musik/Somebody.mp3",
+        "cover": "/cover/gambar.jfif",
+    },
+    {
+        "id": 10,
+        "title": "Kacamata",
+        "artist": "Afgann",
+        "url": "/musik/Kacamata.mp3",
+        "cover": "/cover/test.jfif",
+    },
 ]
 
 
