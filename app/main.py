@@ -91,7 +91,7 @@ songs = [
         "title": "Kacamata",
         "artist": "Afgann",
         "url": "/musik/Kacamata.mp3",
-        "cover": "/cover/test.jfif",
+        "cover": "/cover/kacamata.jpg",
     },
 ]
 
