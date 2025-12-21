@@ -98,7 +98,7 @@ songs = [
         "title": "Somebody pleasure Inst",
         "artist": "Aziz hedra",
         "url": "/musik/somebodyinst.mp3",
-        "cover": "/cover/images.jfif",
+        "cover": "/cover/gambar.jfif",
     },
         {
         "id": 12,
@@ -107,7 +107,27 @@ songs = [
         "url": "/musik/Utopia_Hujan.mp3",
         "cover": "/cover/utopia.jpg",
     },
+        {
+        "id": 13,
+        "title": "Adinda",
+        "artist": "Kaleb J",
+        "url": "/musik/Kaleb J - Adinda.mp3",
+        "cover": "/cover/test.jfif",
+    },
+        {
+        "id": 14,
+        "title": "Now I Know",
+        "artist": "Kaleb J",
+        "url": "/musik/Kalebj_nowiknow.mp3",
+        "cover": "/cover/test.jfif",
+    },
 ]
+
+
+
+
+
+
 
 
 
