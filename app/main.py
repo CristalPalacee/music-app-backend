@@ -93,6 +93,13 @@ songs = [
         "url": "/musik/Kacamata.mp3",
         "cover": "/cover/kacamata.jpg",
     },
+        {
+        "id": 9,
+        "title": "Somebody pleasure Inst",
+        "artist": "Aziz hedra",
+        "url": "/musik/somebodyinst.mp3",
+        "cover": "/cover/gambar.jfif",
+    },
 ]
 
 
