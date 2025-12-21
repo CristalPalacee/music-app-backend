@@ -81,7 +81,7 @@ songs = [
     },
     {
         "id": 9,
-        "title": "Somebody pleasure",
+        "title": "Somebody pleasure Extended",
         "artist": "Aziz hedra",
         "url": "/musik/Somebody.mp3",
         "cover": "/cover/gambar.jfif",
@@ -98,7 +98,7 @@ songs = [
         "title": "Somebody pleasure Inst",
         "artist": "Aziz hedra",
         "url": "/musik/somebodyinst.mp3",
-        "cover": "/cover/gambar.jfif",
+        "cover": "/cover/images.jfif",
     },
         {
         "id": 10,
