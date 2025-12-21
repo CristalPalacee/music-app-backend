@@ -100,6 +100,13 @@ songs = [
         "url": "/musik/somebodyinst.mp3",
         "cover": "/cover/gambar.jfif",
     },
+        {
+        "id": 10,
+        "title": "Utopia ( Hujan )",
+        "artist": "Utopia",
+        "url": "/musik/Utopia_Hujan.mp3",
+        "cover": "/cover/utopia.jpg",
+    },
 ]
 
 
