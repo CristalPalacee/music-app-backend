@@ -94,14 +94,14 @@ songs = [
         "cover": "/cover/kacamata.jpg",
     },
         {
-        "id": 9,
+        "id": 11,
         "title": "Somebody pleasure Inst",
         "artist": "Aziz hedra",
         "url": "/musik/somebodyinst.mp3",
         "cover": "/cover/images.jfif",
     },
         {
-        "id": 10,
+        "id": 12,
         "title": "Utopia ( Hujan )",
         "artist": "Utopia",
         "url": "/musik/Utopia_Hujan.mp3",
