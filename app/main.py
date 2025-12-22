@@ -121,6 +121,27 @@ songs = [
         "url": "/musik/Kalebj_nowiknow.mp3",
         "cover": "/cover/test.jfif",
     },
+        {
+        "id": 15,
+        "title": "Bahagia Bersamamu",
+        "artist": "Adera",
+        "url": "/musik/Bahagia Bersamamu.mp3",
+        "cover": "/cover/adera.jpg",
+    },
+        {
+        "id": 16,
+        "title": "Terlambat",
+        "artist": "Adera",
+        "url": "/musik/Terlambat.mp3",
+        "cover": "/cover/R-11302993-1760885529-7284.jpg",
+    },
+        {
+        "id": 17,
+        "title": "Menjadi Miliku",
+        "artist": "Adera",
+        "url": "/musik/Menjadi_miliku.mp3",
+        "cover": "/cover/menjadi.jfif",
+    },
 ]
 
 
