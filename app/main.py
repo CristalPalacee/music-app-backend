@@ -142,6 +142,20 @@ songs = [
         "url": "/musik/Menjadi_miliku.mp3",
         "cover": "/cover/menjadi.jfif",
     },
+        {
+        "id": 18,
+        "title": "Putri iklan",
+        "artist": "keljo",
+        "url": "/musik/Putri Iklan.mp3",
+        "cover": "/cover/putriiklan.jpg",
+    },
+        {
+        "id": 19,
+        "title": "Will U",
+        "artist": "Glenn samuel",
+        "url": "/musik/Will U_.mp3",
+        "cover": "/cover/willu",
+    },
 ]
 
 
