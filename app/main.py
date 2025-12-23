@@ -154,7 +154,7 @@ songs = [
         "title": "Will U",
         "artist": "Glenn samuel",
         "url": "/musik/Will U_.mp3",
-        "cover": "/cover/willu",
+        "cover": "/cover/willu.jpg",
     },
 ]
 
