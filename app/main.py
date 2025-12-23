@@ -156,6 +156,20 @@ songs = [
         "url": "/musik/Will U_.mp3",
         "cover": "/cover/willu.jpg",
     },
+        {
+        "id": 20,
+        "title": "JKT48 Rapsodi",
+        "artist": "Jkt48",
+        "url": "/musik/Rapsodi.mp3",
+        "cover": "/cover/jkt48.jpg",
+    },
+        {
+        "id": 21,
+        "title": "Sesaat Kau Hadir",
+        "artist": "Gery Gany",
+        "url": "/musik/Sesaat Kau Hadir.mp3",
+        "cover": "/cover/unnamed.jpg",
+    },
 ]
 
 
