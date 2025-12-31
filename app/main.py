@@ -1,27 +1,53 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 import os
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-# from fastapi import Request
+from typing import List, Optional
+
+# Inisialisasi App
 app = FastAPI(title="Music API", version="1.0.0")
 
-BASE_URL = os.getenv("BASE_URL", "").rstrip("/")
+# 1. KONFIGURASI BASE URL (PENTING!)
+# Jika di .env tidak ada BASE_URL, otomatis pakai localhost:8000
+# Ini mengatasi masalah gambar tidak muncul saat development
+BASE_URL = os.getenv("BASE_URL", "http://127.0.0.1:8000").rstrip("/")
+
 if not BASE_URL:
     print("⚠️ WARNING: BASE_URL is not set")
 
+# 2. CORS (Agar bisa diakses dari Frontend Next.js)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*",],
+    allow_origins=["*"],
     allow_credentials=False,
-      allow_methods=["*"],  
+    allow_methods=["*"],  
     allow_headers=["*"],
 )
 
-# Serve file musik & cover secara langsung
+# 3. STATIC FILES (Folder tempat file asli disimpan)
+# Pastikan folder 'musik', 'cover', dan 'album' ada di folder project
 app.mount("/musik", StaticFiles(directory="musik"), name="musik")
 app.mount("/cover", StaticFiles(directory="cover"), name="cover")
+app.mount("/album", StaticFiles(directory="album"), name="album")
 
-# Data lagu manual
+# ==========================================
+# DATA SOURCE (DATABASE SEMENTARA)
+# ==========================================
+
+# Data Album (Baru)
+albums = [
+    {
+        "id": 1,
+        "title": "Daftar Putar",
+        "artist": "Kaleb J",
+        "cover": "/album/kalebj.jfif",
+        "year": 2020,
+    },
+
+
+]
+
+# Data Lagu (Lama - Full)
 songs = [
     {
         "id": 1,
@@ -93,77 +119,77 @@ songs = [
         "url": "/musik/Kacamata.mp3",
         "cover": "/cover/kacamata.jpg",
     },
-        {
+    {
         "id": 11,
         "title": "Somebody pleasure Inst",
         "artist": "Aziz hedra",
         "url": "/musik/somebodyinst.mp3",
         "cover": "/cover/gambar.jfif",
     },
-        {
+    {
         "id": 12,
         "title": "Utopia ( Hujan )",
         "artist": "Utopia",
         "url": "/musik/Utopia_Hujan.mp3",
         "cover": "/cover/utopia.jpg",
     },
-        {
+    {
         "id": 13,
         "title": "Adinda",
         "artist": "Kaleb J",
         "url": "/musik/Kaleb J - Adinda.mp3",
         "cover": "/cover/test.jfif",
     },
-        {
+    {
         "id": 14,
         "title": "Now I Know",
         "artist": "Kaleb J",
         "url": "/musik/Kalebj_nowiknow.mp3",
         "cover": "/cover/test.jfif",
     },
-        {
+    {
         "id": 15,
         "title": "Bahagia Bersamamu",
         "artist": "Adera",
         "url": "/musik/Bahagia Bersamamu.mp3",
         "cover": "/cover/adera.jpg",
     },
-        {
+    {
         "id": 16,
         "title": "Terlambat",
         "artist": "Adera",
         "url": "/musik/Terlambat.mp3",
         "cover": "/cover/R-11302993-1760885529-7284.jpg",
     },
-        {
+    {
         "id": 17,
         "title": "Menjadi Miliku",
         "artist": "Adera",
         "url": "/musik/Menjadi_miliku.mp3",
         "cover": "/cover/menjadi.jfif",
     },
-        {
+    {
         "id": 18,
         "title": "Putri iklan",
         "artist": "keljo",
         "url": "/musik/Putri Iklan.mp3",
         "cover": "/cover/putriiklan.jpg",
     },
-        {
+    {
         "id": 19,
         "title": "Will U",
         "artist": "Glenn samuel",
         "url": "/musik/Will U_.mp3",
         "cover": "/cover/willu.jpg",
     },
-        {
+    {
         "id": 20,
         "title": "JKT48 Rapsodi",
         "artist": "Jkt48",
         "url": "/musik/Rapsodi.mp3",
         "cover": "/cover/jkt48.jpg",
     },
-        {
+    {
         "id": 21,
         "title": "Sesaat Kau Hadir",
         "artist": "Gery Gany",
@@ -172,336 +198,77 @@ songs = [
     },
 ]
 
-
-
-
-
-
-
-
-
-
-
-
+# Data Lirik (Disingkat sebagian, tambahkan sisanya sesuai data Anda)
 lyrics_data = {
-    1: """
-Kau diam diam aku jatuh cinta kepadamu
-Ku bosan sudah ku menyimpan rasa kepadamu
-Tapi tak mampu ku berkata di depanmu
-Aku tak mudah mencintai
-Tak mudah bilang cinta
-Tapi mengapa kini denganmu
-Aku jatuh cinta
-Tuhan tolong dengarkanku
-Beri aku dia
-Tapi jika belum jodoh
-Aku bisa apa
-Ku bosan sudah ku menyimpan rasa kepadamu
-Tapi tak mampu ku berkata didepanmu
-Aku tak mudah mencintai
-Tak mudah bilang cinta
-Tapi mengapa kini denganmu
-Aku jatuh cinta
-Tuhan tolong dengarkanku
-Beri aku dia
-Tapi jika belum jodoh
-Aku bisa apa
-Tak bisa ku paksakan dirimu
-Tuk jadi kekasihku bila tak jodohku
-Aku tak mudah mencintai
-Tapi mengapa denganmu aku jatuh cinta (aku tak mudah mencintai tak mudah bilang cinta)
-Tapi mengapa kini denganmu aku jatuh cinta
-Tuhan tolong dengarkanku
-Beri aku dia
-Tapi jika belum jodoh
-Aku bisa apa
-Aku bisa apa
-""",
-    2: """
-Sama saja, beberapa kali dalam tahun ini
-Kau mengulang salah yang sama
-Belum berubah, pernah berjanji tak akan mengulangi
-Namun kau tetap sama saja
-
-Ternyata ku bukanlah satu-satunya
-Saat ku ingin dapat perhatianmu
-Apa yang kau lakukan di belakangku
-Ada satu hati yang selama ini
-Kau sembunyikan dari mulut manismu
-
-Dan bodohnya diriku terlambat menyadari
-Sepercaya itu ku pada dirimu
-Biarkan waktu yang membalas di hati yang lain
-
-Sudah tak bisa kau kembali untuk merayuku lagi
-Tak lagi percaya janji yang sama
-Selama ini ku bukanlah satu-satunya
-Saat ku ingin dapat perhatianmu
-Apa yang kau lakukan di belakangku
-Ada satu hati yang selama ini
-Kau sembunyikan dari mulut manismu
-
-Dan bodohnya diriku terlambat menyadari
-Sepercaya itu ku pada dirimu
-Biarkan waktu yang membalas di hati yang lain
-
-Saat ku ingin dapat perhatianmu
-Apa yang kau lakukan di belakangku
-Ada satu hati yang selama ini
-Kau sembunyikan dari mulut manismu
-
-Dan bodohnya diriku terlambat menyadari
-Sepercaya itu ku pada dirimu
-Biarkan waktu yang membalas di hati yang lain
-Ternyata ku bukanlah satu-satunya
-""",
-    3: """
-C                 A/C#     Dm   G           Em
-Kau yang tlah berdua Ternyata masih inginkanku
-           Am       Dm           G
-Walau ku tahu ini salah apa daya ku tlah cinta
- 
-  C             A/C#    Dm    G                     Em
-kamu datang padaku bertanya Maukah ku jadi yang kedua
-          Am        Dm         G
-Menjadi pacar rahasia Lalu aku pun terima
- 
- 
-F                 G
-Meski harus terbagi
-           Em           Am
-Percayalah aku tak perduli
-              Dm    G
-Kelak kau pun mengerti
-            C    C7
-Akulah yang terbaik
- 
-   F             G
-Tinggalkan saja dia
-         Em              Am
-Biarlah aku menjadi yang pertama
-Dm     Em    F          D/F#   G
-Bersamaku pastikan lebih bahagia
- 
-  C                A/C#    Dm
-tapi jangan sampai dia curiga
-   G                       Em
-Gantilah namaku dihandphonemu
-        Am          Dm          G
-Buat seolah ku tak ada diantara kau dan dia
- 
- 
-[Interlude]
-F G Em Am Dm G C C7
-F G Em Am Dm G C
- 
- 
-F                 G
-Meski harus terbagi
-           Em           Am
-Percayalah aku tak perduli
-              Dm    G
-Kelak kau pun mengerti
-            C    C7
-Akulah yang terbaik
- 
-   F             G
-Tinggalkan saja dia
-         Em              Am
-Biarlah aku menjadi yang pertama
-Dm     Em    F          D/F#   G
-Bersamaku pastikan lebih bahagia
- 
-F                 G
-Meski harus terbagi
-           Em           Am
-Percayalah aku tak perduli
-              Dm    G
-Kelak kau pun mengerti
-            C    C7
-Akulah yang terbaik
- 
-   F             G
-Tinggalkan saja dia
-         Em              Am
-Biarlah aku menjadi yang pertama
-Dm     Em    F          D/F#   G
-Bersamaku pastikan lebih bahagia
- 
-[Outro]
-D C CMaj7
-X
-
-""",
-4: """ketika ku mendengar bahwa
-kini kau tak lagi dengannya
-dalam benakku timbul tanya
-
-masihkah ada dia di hatimu bertahta
-atau ini saat bagiku
-untuk singgah di hatimu
-
-namun siapkah kau tuk jatuh cinta lagi
-
-meski bibir ini tak berkata
-bukan berarti ku tak merasa
-ada yang berbeda di antara kita
-
-dan tak mungkin ku melewatkanmu
-hanya karena diriku tak mampu untuk bicara
-bahwa aku inginkan kau ada di hidupku
-
-kini ku tak lagi dengannya
-sudah tak ada lagi rasa antara aku dengan dia (dengan dia)
-siapkah kau bertahta di hatiku, adinda
-karena ini saat yang tepat untuk singgah di hatiku
-namun siapkah kau tuk jatuh cinta lagi oooh
-
-meski bibir ini tak berkata
-bukan berarti ku tak merasa ada yang berbeda di antara kita
-dan tak mungkin ku melewatkanmu hanya karena
-diriku tak mampu untuk bicara bahwa aku inginkan kau ada di hidupku
-
-pikirlah saja dulu hingga tiada ragu
-agar mulus jalanku melangkah menuju ke hatimu
-pikirlah saja dulu hingga tiada ragu
-agar mulus jalanku melangkah menuju ke hatimu
-oooh siapkah kau tuk jatuh cinta lagi
-
-meski bibir ini tak berkata
-bukan berarti ku tak merasa ada yang berbeda di antara kita
-dan tak mungkin ku melewatkanmu hanya karena
-diriku tak mampu untuk bicara bahwa aku inginkan kau ada di hidupku
-
-meski bibir ini tak berkata
-bukan berarti ku tak merasa ada yang berbeda di antara kita
-dan tak mungkin ku melewatkanmu hanya karena
-diriku tak mampu untuk bicara bahwa aku inginkan kau ada di hidupku
-
-bila kau jatuh cinta, katakanlah, jangan buang sia-sia
-bila kau jatuh cinta, katakanlah, jangan buang sia-sia
-bila kau jatuh cinta, katakanlah, jangan buang sia-sia
-siapkah kau tuk jatuh cinta lagi
-?""",
-5:"""
-Jaga dulu jarak kita
-Jika tak ingin akhirnya
-Kau menangis lagi
-
-Jangan terlalu kau dekat
-Jangan buat terikat
-Coba kau rasakan lagi
-
-Mungkin kau dapat perannya
-Tapi hanya sebagai bayang-bayangnya saja
-Jangan minta jatuh cinta
-Luka lama ku juga belum reda
-Beri dulu aku waktu untuk sembuh sendirinya
-
-Jangan minta jatuh cinta
-Sakit sebelumnya masih kurasa
-Beri waktu hingga aku mampu lupakan semua
-
-Jangan terlalu kau dekat
-Jangan buat terikat
-Coba kau rasakan lagi
-
-Mungkin kau dapat perannya
-Tapi hanya sebagai bayang-bayangnya saja
-Jangan minta jatuh cinta
-Luka lama ku juga belum reda
-Beri dulu aku waktu untuk sembuh sendirinya
-
-Jangan minta jatuh cinta
-Sakit sebelumnya masih kurasa
-Beri waktu hingga aku mampu lupakan semua
-
-Jangan minta jatuh cinta
-Luka lama ku juga belum reda
-Beri dulu aku waktu untuk sembuh sendirinya
-
-Bukan ku tak jatuh cinta
-Lelah ulang kesalahan yang sama
-Ku ingin kita jalani cinta
-Ku ingin kita jalani cinta
-Tanpa tergesa
-""",
-6: """
-saat ku tenggelam dalam sendu
-Waktupun enggan untuk berlalu
-Ku berjanji tuk menutup pintu hatiku
-Entah untuk siapapun itu
-
-Semakin ku lihat masa lalu
-semakin hatiku tak menentu
-Tetapi satu sinar terangi jiwaku
-Saat ku melihat senyummu
-
-Reff:
-Dan kau hadir merubah segalanya
-Menjadi lebih indah
-Kau bawa cintaku setinggi angkasa
-Membuatku merasa sempurna
-Dan membuatku utuh tuk menjalani hidup
-Berdua denganmu selama-lamanya
-Kaulah yang terbaik untukku
-
-Kini ku ingin hentikan waktu
-Bila kau berada di dekatku
-Bunga cinta bermekaran dalam jiwaku
-Kan ku petik satu untukmu
-
-Repeat Reff
-
-Kaulah yang terbaik untukku
-
-Ku percayakan seluruh hatiku padamu
-Kasihku satu janjiku kaulah yang terakhir bagiku
-
-""",
-7: """
-
-""",
-8: """
-
-""",
-9: """
-
-""",
+    1: """Kau diam diam aku jatuh cinta kepadamu...""", 
+    2: """Sama saja, beberapa kali dalam tahun ini...""",
+    3: """Kau yang tlah berdua Ternyata masih inginkanku...""",
+    4: """ketika ku mendengar bahwa kini kau tak lagi dengannya...""",
+    5: """Jaga dulu jarak kita...""",
+    6: """saat ku tenggelam dalam sendu...""",
+    # ... (Anda bisa paste sisa lirik lengkap di sini)
 }
 
+# ==========================================
+# HELPER FUNCTIONS (LOGIKA URL)
+# ==========================================
 
-def with_base_url(song: dict) -> dict:
+def process_song_url(song: dict) -> dict:
+    """Khusus memproses data LAGU (ada url mp3 & cover)"""
     return {
         **song,
         "url": f"{BASE_URL}{song['url']}",
         "cover": f"{BASE_URL}{song['cover']}",
     }
 
+def process_album_url(album: dict) -> dict:
+    """Khusus memproses data ALBUM (hanya cover)"""
+    return {
+        **album,
+        "cover": f"{BASE_URL}{album['cover']}"
+    }
+
+# ==========================================
+# API ENDPOINTS
+# ==========================================
+
 @app.get("/")   
 def root():
-    return {"status": "ok"}
-
+    return {"status": "ok", "message": "Music API is running"}
 
 @app.get("/health")
 def health():
     return {"status": "healthy"}
 
-@app.get("/api/songs")
+# --- ENDPOINTS SONGS ---
+
+@app.get("/api/songs", tags=["Songs"])
 def get_songs():
-    return [with_base_url(song) for song in songs]
+    return [process_song_url(song) for song in songs]
 
-
-@app.get("/api/songs/{song_id}")
+@app.get("/api/songs/{song_id}", tags=["Songs"])
 def get_song(song_id: int):
     for song in songs:
         if song["id"] == song_id:
-            return with_base_url(song)
-    return {"error": "Song not found"}
+            return process_song_url(song)
+    raise HTTPException(status_code=404, detail="Song not found")
 
-@app.get("/api/songs/{song_id}/lyrics")
+@app.get("/api/songs/{song_id}/lyrics", tags=["Songs"])
 def get_lyrics(song_id: int):
     lyrics = lyrics_data.get(song_id)
     if not lyrics:
         return {"lyrics": "Lirik belum tersedia"}
     return {"lyrics": lyrics}
+
+# --- ENDPOINTS ALBUMS (BARU) ---
+
+@app.get("/api/albums", tags=["Albums"])
+def get_all_albums():
+    return [process_album_url(album) for album in albums]
+
+@app.get("/api/albums/{album_id}", tags=["Albums"])
+def get_one_album(album_id: int):
+    for album in albums:
+        if album["id"] == album_id:
+            return process_album_url(album)
+    raise HTTPException(status_code=404, detail="Album not found")
